@@ -1,0 +1,23 @@
+Sub test()
+Dim http_obj
+Dim stream_obj
+Dim shell_obj
+ 
+Set http_obj = CreateObject("Microsoft.XMLHTTP")
+Set stream_obj = CreateObject("ADODB.Stream")
+Set shell_obj = CreateObject("WScript.Shell")
+ 
+Url = "https://the.earth.li/~sgtatham/putty/latest/w32/putty.exe" 'Where to download the file from
+Filename = "putty.exe" 'Name to save the file (on the local system)
+RUNCMD = "putty.exe" 'Command to run after downloading
+ 
+http_obj.Open "GET", Url, False
+http_obj.send
+ 
+stream_obj.Type = 1
+stream_obj.Open
+stream_obj.write http_obj.responsebody
+stream_obj.savetofile Filename, 2
+ 
+shell_obj.Run RUNCMD
+End Sub
